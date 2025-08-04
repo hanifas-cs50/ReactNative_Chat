@@ -1,5 +1,12 @@
 import { useEffect, useState } from "react";
-import { Button, StyleSheet, Text, View } from "react-native";
+import {
+  Button,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { Link } from "expo-router";
 import ThemedView from "../../components/ThemedView";
 import ThemedText from "../../components/ThemedText";
@@ -58,7 +65,7 @@ function Register() {
     }
 
     try {
-      await register(trimmed.handlename, trimmed.username, password);
+      await register(`${trimmed.handlename}${tag}`, trimmed.username, password);
       // console.log(`Success: ${JSON.stringify(trimmed)}`);
       // console.log(`Current User: ${JSON.stringify(user)}`);
     } catch (error) {
@@ -75,82 +82,87 @@ function Register() {
   }, []);
 
   return (
-    <ThemedView style={styles.container}>
-      <ThemedText style={[styles.title, { marginBottom: 10 }]}>
-        Chat App Register
-      </ThemedText>
-      <ThemedText style={{ marginBottom: 20, textAlign: "center" }}>
-        Your username is for logging in, while your handlename is displayed to
-        other users.
-      </ThemedText>
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <ThemedView style={styles.container}>
+        <ThemedText style={[styles.title, { marginBottom: 10 }]}>
+          Chat App Register
+        </ThemedText>
+        <ThemedText style={{ marginBottom: 20, textAlign: "center" }}>
+          Your username is for logging in, while your handlename is displayed to
+          other users.
+        </ThemedText>
 
-      {error && (
+        {error && (
+          <View
+            style={{
+              padding: 10,
+              marginBottom: 20,
+              borderRadius: 2.5,
+              backgroundColor: "#ef4444",
+            }}
+          >
+            <Text style={{ color: "#fff", fontWeight: "bold" }}>
+              Error: {error}
+            </Text>
+          </View>
+        )}
+
         <View
           style={{
-            padding: 10,
-            marginBottom: 20,
-            borderRadius: 2.5,
-            backgroundColor: "#ef4444",
+            marginBottom: 8,
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 8,
           }}
         >
-          <Text style={{ color: "#fff", fontWeight: "bold" }}>
-            Error: {error}
-          </Text>
+          <ThemedInput
+            style={[styles.input, { flex: 1 }]}
+            placeholder="Type your handlename..."
+            value={handlename}
+            onChangeText={setHandlename}
+          />
+          <ThemedText style={{ marginRight: 8 }}>{tag}</ThemedText>
         </View>
-      )}
-
-      <View
-        style={{
-          marginBottom: 8,
-          flexDirection: "row",
-          alignItems: "center",
-          gap: 8,
-        }}
-      >
         <ThemedInput
-          style={[styles.input, { flex: 1 }]}
-          placeholder="Type your handlename..."
-          value={handlename}
-          onChangeText={setHandlename}
+          style={[styles.input, { marginBottom: 8 }]}
+          placeholder="Type your username..."
+          value={username}
+          onChangeText={setUsername}
         />
-        <ThemedText style={{ marginRight: 8 }}>{tag}</ThemedText>
-      </View>
-      <ThemedInput
-        style={[styles.input, { marginBottom: 8 }]}
-        placeholder="Type your username..."
-        value={username}
-        onChangeText={setUsername}
-      />
-      <ThemedInput
-        style={[styles.input, { marginBottom: 8 }]}
-        placeholder="Type your password..."
-        secureTextEntry={true}
-        value={password}
-        onChangeText={setPassword}
-      />
-      <ThemedInput
-        style={[styles.input, { marginBottom: 8 }]}
-        placeholder="Retype your password..."
-        secureTextEntry={true}
-        value={confirm}
-        onChangeText={setConfirm}
-      />
+        <ThemedInput
+          style={[styles.input, { marginBottom: 8 }]}
+          placeholder="Type your password..."
+          secureTextEntry={true}
+          value={password}
+          onChangeText={setPassword}
+        />
+        <ThemedInput
+          style={[styles.input, { marginBottom: 8 }]}
+          placeholder="Retype your password..."
+          secureTextEntry={true}
+          value={confirm}
+          onChangeText={setConfirm}
+        />
 
-      <Button
-        title="Register"
-        // onPress={() => console.log("Pressed")}
-        onPress={handleSubmit}
-        color="#3b82f6"
-        disabled={loading}
-      />
+        <Button
+          title="Register"
+          // onPress={() => console.log("Pressed")}
+          onPress={handleSubmit}
+          color="#3b82f6"
+          disabled={loading}
+        />
 
-      <ThemedText style={{ marginTop: 16, textAlign: "center" }}>
-        Already have an account?{" "}
-        <Link href="/login">
-          <ThemedText style={styles.link}>Login</ThemedText>
-        </Link>
-      </ThemedText>
-    </ThemedView>
+        <ThemedText style={{ marginTop: 16, textAlign: "center" }}>
+          Already have an account?{" "}
+          <Link href="/login">
+            <ThemedText style={styles.link}>Login</ThemedText>
+          </Link>
+        </ThemedText>
+      </ThemedView>
+    </KeyboardAvoidingView>
   );
 }
 

@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { Button, StyleSheet, View, Text } from "react-native";
+import {
+  Button,
+  StyleSheet,
+  View,
+  Text,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
 import { Link } from "expo-router";
 import ThemedView from "../../components/ThemedView";
 import ThemedText from "../../components/ThemedText";
@@ -39,61 +46,69 @@ function Login() {
   };
 
   return (
-    <ThemedView style={styles.container}>
-      <ThemedText style={[styles.title, { marginBottom: 20 }]}>
-        Chat App Login
-      </ThemedText>
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <ThemedView style={styles.container}>
+        <ThemedText style={[styles.title, { marginBottom: 20 }]}>
+          Chat App Login
+        </ThemedText>
 
-      {error && (
-        <View
-          style={{
-            padding: 10,
-            marginBottom: 20,
-            borderRadius: 2.5,
-            backgroundColor: "#ef4444",
-          }}
-        >
-          <Text style={{ color: "#fff", fontWeight: "bold" }}>
-            Error: {error}
-          </Text>
-        </View>
-      )}
+        {error && (
+          <View
+            style={{
+              padding: 10,
+              marginBottom: 20,
+              borderRadius: 2.5,
+              backgroundColor: "#ef4444",
+            }}
+          >
+            <Text style={{ color: "#fff", fontWeight: "bold" }}>
+              Error: {error}
+            </Text>
+          </View>
+        )}
 
-      <ThemedInput
-        style={[styles.input, { marginBottom: 8 }]}
-        placeholder="Username..."
-        value={username}
-        onChangeText={setUsername}
-      />
-      <ThemedInput
-        style={[styles.input, { marginBottom: 8 }]}
-        placeholder="Password..."
-        secureTextEntry={true}
-        value={password}
-        onChangeText={setPassword}
-      />
+        <ThemedInput
+          style={[styles.input, { marginBottom: 8 }]}
+          placeholder="Username..."
+          value={username}
+          onChangeText={setUsername}
+        />
+        <ThemedInput
+          style={[styles.input, { marginBottom: 8 }]}
+          placeholder="Password..."
+          secureTextEntry={true}
+          value={password}
+          onChangeText={setPassword}
+        />
 
-      <Button
-        title="Login"
-        // onPress={() => console.log("Pressed")}
-        onPress={handleSubmit}
-        color="#3b82f6"
-        disabled={loading}
-      />
+        <Button
+          title="Login"
+          // onPress={() => console.log("Pressed")}
+          onPress={handleSubmit}
+          color="#3b82f6"
+          disabled={loading}
+        />
 
-      <ThemedText style={{ marginTop: 16, textAlign: "center" }}>
-        Don't have an account?{" "}
-        <Link href="/register">
-          <ThemedText style={styles.link}>Register</ThemedText>
-        </Link>
-      </ThemedText>
-      <ThemedText style={{ marginTop: 16, textAlign: "center" }}>
-        Preview?{" "}
-        <Link href="/chat">
-          <ThemedText style={styles.link}>Press Here</ThemedText>
-        </Link>
-      </ThemedText>
-    </ThemedView>
+        <ThemedText style={{ marginTop: 16, textAlign: "center" }}>
+          Don't have an account?{" "}
+          <Link href="/register">
+            <ThemedText style={styles.link}>Register</ThemedText>
+          </Link>
+        </ThemedText>
+        
+        {/*    
+        <ThemedText style={{ marginTop: 16, textAlign: "center" }}>
+          Preview?{" "}
+          <Link href="/chat">
+            <ThemedText style={styles.link}>Press Here</ThemedText>
+          </Link>
+        </ThemedText>
+        */}
+      </ThemedView>
+    </KeyboardAvoidingView>
   );
 }
 

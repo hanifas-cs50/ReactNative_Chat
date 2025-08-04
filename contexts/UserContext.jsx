@@ -18,10 +18,10 @@ export function UserProvider({ children }) {
   async function login(username, password) {
     // console.log(JSON.stringify({username, password}));
     try {
-      const userData = await pb
+      const res = await pb
         .collection("users")
         .authWithPassword(username, password);
-      setUser(userData.record);
+      setUser(res.record);
     } catch (error) {
       console.error(`[Login]: ${error}`);
       throw error;
@@ -37,10 +37,10 @@ export function UserProvider({ children }) {
     };
 
     try {
-      const user = await pb.collection("users").create(data);
+      const res = await pb.collection("users").create(data);
       await login(username, password);
 
-      return user;
+      return res;
     } catch (error) {
       console.error(`[Register]: ${error}`);
       throw error;
