@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Pressable,
   KeyboardAvoidingView,
@@ -21,6 +21,7 @@ import pb from "../../lib/db";
 function Chat() {
   const { user } = useUser();
   const insets = useSafeAreaInsets();
+  const scrollViewRef = useRef(null);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
 
@@ -61,6 +62,10 @@ function Chat() {
     };
   }, []);
 
+  useEffect(() => {
+    scrollViewRef.current.scrollToEnd({ animated: true });
+  }, [messages])
+
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
@@ -69,6 +74,7 @@ function Chat() {
       <ThemedView style={[styles.container, { marginTop: insets.top }]}>
         <ThemedText style={styles.title}>Chat Page</ThemedText>
         <ScrollView
+          ref={scrollViewRef}
           style={styles.chatBox}
           contentContainerStyle={{ paddingBottom: 14 }}
         >

@@ -27,6 +27,9 @@ I don't know when I'm going to finish the future plans, since I'd rather make an
 #### Part 2
 Apparently pocketbase's websocket does not work on react native, unless I make my own backend code this app won't be realtime, the fix for now is to fetch every 3 seconds, I am going to make the backend of this chat app, just not right now, after my next project then I'll make the backend, I always wanted to try go lang, my choice is either go lang or a Ktor / any kotlin based framework as the backend
 
+#### .env file
+EXPO_PUBLIC_POCKETBASE_URL=[your pocketbase server URL]
+
 ## Tables
 User Table
 id
